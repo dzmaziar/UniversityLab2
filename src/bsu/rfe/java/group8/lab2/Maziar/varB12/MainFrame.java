@@ -117,6 +117,17 @@ public class MainFrame extends JFrame {
             }
         });
 
+        JButton clear = new JButton("Clear");
+        clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dxField.setText("0");
+                dyField.setText("0");
+                dzField.setText("0");
+                resultField.setText("0");
+            }
+        });
+
         
 
     }
