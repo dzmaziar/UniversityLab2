@@ -77,13 +77,13 @@ public class MainFrame extends JFrame {
         Variables.add(dyField);
         Variables.add(Box.createHorizontalGlue());
 
-        Variables.add(Box.createHorizontalStrut(100));
+        Variables.add(Box.createHorizontalStrut(10));
         Variables.add(forZ);
         Variables.add(Box.createHorizontalStrut(10));
         Variables.add(dzField);
         Variables.add((Box.createHorizontalGlue()));
 
-        JLabel forResult = new JLabel("Результат");
+        JLabel forResult = new JLabel("Результат: ");
         resultField = new JTextField("0",10);
         resultField.setMaximumSize(resultField.getPreferredSize());
         Box boxResult = Box.createHorizontalBox();
@@ -128,7 +128,24 @@ public class MainFrame extends JFrame {
             }
         });
 
-        
+        Box boxbuttons= Box.createHorizontalBox();
+        boxbuttons.add(Box.createHorizontalGlue());
+        boxbuttons.add(resultbutton);
+        boxbuttons.add(Box.createHorizontalStrut(30));
+        boxbuttons.add(clear);
+        boxbuttons.add(Box.createHorizontalGlue());
+        boxbuttons.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+
+        Box contentBox = Box.createVerticalBox();
+        contentBox.add(Box.createVerticalGlue());
+        contentBox.add(boxFormulaType);
+        contentBox.add(Variables);
+        contentBox.add(resultbutton);
+        contentBox.add(boxbuttons);
+        contentBox.add(resultField);
+        contentBox.add(Box.createVerticalGlue());
+        getContentPane().add(contentBox, BorderLayout.CENTER);
 
     }
 }
