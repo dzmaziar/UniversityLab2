@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame {
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = 400;
+    private static final int WIDTH = 500;
+    private static final int HEIGHT = 500;
 
 
     private JTextField resultField;
@@ -18,6 +18,7 @@ public class MainFrame extends JFrame {
 
     private ButtonGroup radio = new ButtonGroup();
     private Box boxFormulaType = Box.createHorizontalBox();
+
 
 
     public double function1(double x, double y, double z) {
@@ -43,6 +44,38 @@ public class MainFrame extends JFrame {
             boxFormulaType.add(button);
     }
 
+
+
+    // задание 2+3
+
+        private int number_of_variable = 1;
+    private JTextField result_fieldM;
+    private ButtonGroup radio_variable = new ButtonGroup();
+    private Box box_of_variable = Box.createHorizontalBox();
+
+    Double mem1=0.0;
+    Double mem2=0.0;
+    Double mem3=0.0;
+
+    private void addRadioVariable(String name, int number_of_variable)
+    {
+        JRadioButton button = new JRadioButton(name);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainFrame.this.number_of_variable = number_of_variable;
+            }
+        });
+        radio_variable.add(button);
+        box_of_variable.add(button);
+    }
+
+
+//
+
+
+
+
     public MainFrame()
     {
         super("Решение уравнений с тремя переменными");
@@ -51,8 +84,37 @@ public class MainFrame extends JFrame {
         setLocation(10,10);
         addRadioButton("function 1",1);
         addRadioButton("function 2",2);
+
+
+
         radio.setSelected(radio.getElements().nextElement().getModel(),true);
         boxFormulaType.setBorder(BorderFactory.createLineBorder(Color.RED));
+
+        //задание 2,3
+setLocation(60,60);
+        addRadioVariable("x", 1);
+        addRadioVariable("y",2);
+        addRadioVariable("z",3);
+        radio_variable.setSelected(radio_variable.getElements().nextElement().getModel(),true);
+        box_of_variable.setBorder(BorderFactory.createLineBorder(Color.green));
+
+
+
+        JLabel forResultM = new JLabel("Результат M: ");
+        result_fieldM = new JTextField("0",20);
+        result_fieldM.setMaximumSize(result_fieldM.getPreferredSize());
+        Box boxResultM = Box.createHorizontalBox();
+        boxResultM.add(Box.createHorizontalGlue());
+        boxResultM.add(forResultM);
+        boxResultM.add(Box.createHorizontalStrut(10));
+        boxResultM.add(result_fieldM);
+        boxResultM.add(Box.createHorizontalGlue());
+        boxResultM.setBorder(BorderFactory.createLineBorder(Color.CYAN));
+
+
+
+        //
+
         JLabel forX = new JLabel("X: ");
         dxField = new JTextField("0",10);
         dxField.setMaximumSize(dxField.getPreferredSize());
@@ -84,7 +146,7 @@ public class MainFrame extends JFrame {
         Variables.add((Box.createHorizontalGlue()));
 
         JLabel forResult = new JLabel("Результат: ");
-        resultField = new JTextField("0",10);
+        resultField = new JTextField("0",30);
         resultField.setMaximumSize(resultField.getPreferredSize());
         Box boxResult = Box.createHorizontalBox();
         boxResult.add(Box.createHorizontalGlue());
@@ -92,11 +154,11 @@ public class MainFrame extends JFrame {
         boxResult.add(Box.createHorizontalStrut(10));
         boxResult.add(resultField);
         boxResult.add(Box.createHorizontalGlue());
-        boxResult.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+        boxResult.setBorder(BorderFactory.createLineBorder(Color.CYAN));
 
         JButton resultbutton = new JButton("result");
         resultbutton.addActionListener(new ActionListener() {
-            @Override
+
             public void actionPerformed(ActionEvent e) {
                 try{
                     Double x = Double.parseDouble(dxField.getText());
@@ -117,6 +179,60 @@ public class MainFrame extends JFrame {
             }
         });
 
+
+        //2-3
+        JButton M = new JButton("M+");
+        M.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    Double x = Double.parseDouble(dxField.getText());
+                    Double y = Double.parseDouble(dyField.getText());
+                    Double z = Double.parseDouble(dzField.getText());
+
+                    if (number_of_variable==1) {
+                        mem1 += x;
+                        result_fieldM.setText(mem1.toString());
+                    }
+                    if (number_of_variable==2) {
+                        mem2+=y;
+                        result_fieldM.setText(mem2.toString());
+                    }
+                        if (number_of_variable==3) {
+                            mem3 += z;
+                            result_fieldM.setText(mem3.toString());
+                        }
+
+                }catch (NumberFormatException ex)
+                {
+                    JOptionPane.showMessageDialog(MainFrame.this,
+                            "Floating point format error", "Ошибочный формат числа",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+
+
+
+        JButton MC_clear = new JButton("MC");
+        MC_clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(number_of_variable ==1)
+                {
+                    dxField.setText("0");
+                }
+                if(number_of_variable ==2) {
+                    dyField.setText("0");
+                }
+                if(number_of_variable ==3) {
+                    dzField.setText("0");
+                }
+            }
+        });
+        //
+
+
         JButton clear = new JButton("Clear");
         clear.addActionListener(new ActionListener() {
             @Override
@@ -125,6 +241,7 @@ public class MainFrame extends JFrame {
                 dyField.setText("0");
                 dzField.setText("0");
                 resultField.setText("0");
+                result_fieldM.setText("0");
             }
         });
 
@@ -133,6 +250,10 @@ public class MainFrame extends JFrame {
         boxbuttons.add(resultbutton);
         boxbuttons.add(Box.createHorizontalStrut(30));
         boxbuttons.add(clear);
+        //2-3
+        boxbuttons.add(M);
+        boxbuttons.add(MC_clear);
+        //
         boxbuttons.add(Box.createHorizontalGlue());
         boxbuttons.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -140,6 +261,14 @@ public class MainFrame extends JFrame {
         Box contentBox = Box.createVerticalBox();
         contentBox.add(Box.createVerticalGlue());
         contentBox.add(boxFormulaType);
+        //2-3
+        contentBox.add(Box.createHorizontalGlue());
+        contentBox.add(box_of_variable);
+        contentBox.add(result_fieldM);
+        contentBox.add(M);
+       // contentBox.add(MC_clear);
+
+        //
         contentBox.add(Variables);
         contentBox.add(resultbutton);
         contentBox.add(boxbuttons);
